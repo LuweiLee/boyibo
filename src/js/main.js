@@ -151,7 +151,7 @@ class BoyiboApp {
                 author: '足球专家',
                 time: '2小时前',
                 confidence: 85,
-                createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000)
+                createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
             },
             {
                 id: utils.generateId(),
@@ -161,7 +161,7 @@ class BoyiboApp {
                 author: '篮球分析师',
                 time: '3小时前',
                 confidence: 78,
-                createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000)
+                createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()
             },
             {
                 id: utils.generateId(),
@@ -171,7 +171,7 @@ class BoyiboApp {
                 author: '欧洲足球通',
                 time: '5小时前',
                 confidence: 72,
-                createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000)
+                createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString()
             }
         ];
     }
@@ -220,25 +220,30 @@ class BoyiboApp {
         const container = document.getElementById('recommendationsGrid');
         if (!container) return;
 
-        container.innerHTML = this.recommendations.map(rec => `
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <div class="recommendation-title">${rec.title}</div>
-                    <div class="recommendation-odds">${rec.odds}</div>
-                </div>
-                <div class="recommendation-content">${rec.content}</div>
-                <div class="recommendation-meta">
-                    <span class="recommendation-author">by ${rec.author}</span>
-                    <span class="recommendation-time">${rec.time}</span>
-                </div>
-                <div style="margin-top: 1rem;">
-                    <div style="background: #f0f0f0; border-radius: 10px; height: 8px; overflow: hidden;">
-                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; width: ${rec.confidence}%; transition: width 0.3s ease;"></div>
+        container.innerHTML = this.recommendations.map(rec => {
+            // 计算真实时间显示，优先使用createdAt
+            const recTime = rec.createdAt ? utils.formatTime(new Date(rec.createdAt)) : rec.time;
+            
+            return `
+                <div class="recommendation-card">
+                    <div class="recommendation-header">
+                        <div class="recommendation-title">${rec.title}</div>
+                        <div class="recommendation-odds">${rec.odds}</div>
                     </div>
-                    <small style="color: #888; margin-top: 0.5rem; display: block;">信心指数: ${rec.confidence}%</small>
+                    <div class="recommendation-content">${rec.content}</div>
+                    <div class="recommendation-meta">
+                        <span class="recommendation-author">by ${rec.author}</span>
+                        <span class="recommendation-time">${recTime}</span>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <div style="background: #f0f0f0; border-radius: 10px; height: 8px; overflow: hidden;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; width: ${rec.confidence}%; transition: width 0.3s ease;"></div>
+                        </div>
+                        <small style="color: #888; margin-top: 0.5rem; display: block;">信心指数: ${rec.confidence}%</small>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     // 渲染社区帖子
