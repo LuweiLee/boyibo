@@ -1,0 +1,22 @@
+{
+  "name": "boyibo",
+  "version": "1.0.0",
+  "description": "搏一搏，单车变摩托。博彩推荐+微型社区项目",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "http-server dist -p 8080"
+  },
+  "keywords": ["博彩", "社区", "推荐"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

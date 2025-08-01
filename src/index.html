@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搏一搏 - 单车变摩托</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/components.css">
+    <link rel="stylesheet" href="./styles/profile.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>🎲 搏一搏</h1>
+                    <span class="slogan">单车变摩托</span>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link active">首页</a>
+                    <a href="#recommendations" class="nav-link">推荐</a>
+                    <a href="#community" class="nav-link">社区</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main">
+            <!-- 首页内容 -->
+            <section id="home" class="section active">
+                <div class="container">
+                    <div class="hero">
+                        <h2>欢迎来到搏一搏社区</h2>
+                        <p>专业的博彩推荐平台，与志同道合的朋友一起交流</p>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">668</span>
+                                <span class="stat-label">活跃用户</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">89%</span>
+                                <span class="stat-label">推荐准确率</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">2</span>
+                                <span class="stat-label">今日推荐</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 推荐内容 -->
+            <section id="recommendations" class="section">
+                <div class="container">
+                    <h2>今日推荐</h2>
+                    <div class="recommendations-grid" id="recommendationsGrid">
+                        <!-- 推荐内容将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 社区内容 -->
+            <section id="community" class="section">
+                <div class="container">
+                    <h2>社区动态</h2>
+                    <div class="community-content">
+                        <div class="post-form">
+                            <input type="text" placeholder="请输入昵称" id="postAuthor" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <textarea placeholder="分享你的想法..." id="postContent"></textarea>
+                            <button class="btn btn-primary" onclick="createPost()">发布</button>
+                        </div>
+                        <div class="posts-list" id="postsList">
+                            <!-- 帖子列表将通过JavaScript动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 个人中心 -->
+            <section id="profile" class="section">
+                <div class="container">
+                    <h2>个人中心</h2>
+                    <div class="profile-content">
+                        <div class="simple-profile">
+                            <div class="profile-avatar">👤</div>
+                            <h3>博彩爱好者</h3>
+                            <p>欢迎来到搏一搏社区！</p>
+                            <div class="profile-notice">
+                                <h4>🎯 专注核心功能</h4>
+                                <p>我们专注于为您提供最优质的推荐和社区体验：</p>
+                                <ul>
+                                    <li>📊 <strong>专业推荐</strong> - 查看专家精选的博彩推荐</li>
+                                    <li>💬 <strong>活跃社区</strong> - 与其他用户交流讨论</li>
+                                    <li>🎲 <strong>实时更新</strong> - 最新的赛事分析和预测</li>
+                                </ul>
+                                <div class="quick-actions">
+                                    <button class="btn btn-primary" onclick="showSection('recommendations')">查看推荐</button>
+                                    <button class="btn btn-secondary" onclick="showSection('community')">进入社区</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 搏一搏社区. 理性博彩，适度娱乐。</p>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+    
+    <!-- 管理员功能面板（隐藏） -->
+    <div id="adminPanel" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 2000; max-width: 500px; width: 90%;">
+        <h3>添加推荐</h3>
+        <form id="recommendationForm">
+            <div style="margin-bottom: 1rem;">
+                <label>标题:</label>
+                <input type="text" id="recTitle" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label>内容:</label>
+                <textarea id="recContent" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label>赔率:</label>
+                <input type="text" id="recOdds" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label>作者:</label>
+                <input type="text" id="recAuthor" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label>信心指数 (0-100):</label>
+                <input type="number" id="recConfidence" min="0" max="100" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">发布推荐</button>
+                <button type="button" class="btn btn-secondary" onclick="closeAdminPanel()">取消</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- 遮罩层 -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999;" onclick="closeAdminPanel()"></div>
+    
+    <script>
+        // 管理员功能
+        function openAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+        
+        // 双击logo打开管理员面板
+        document.addEventListener('DOMContentLoaded', () => {
+            const logo = document.querySelector('.logo');
+            let clickCount = 0;
+            
+            logo.addEventListener('click', () => {
+                clickCount++;
+                setTimeout(() => {
+                    if (clickCount === 2) {
+                        openAdminPanel();
+                    }
+                    clickCount = 0;
+                }, 300);
+            });
+            
+            // 推荐表单提交
+            document.getElementById('recommendationForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    title: document.getElementById('recTitle').value,
+                    content: document.getElementById('recContent').value,
+                    odds: document.getElementById('recOdds').value,
+                    author: document.getElementById('recAuthor').value,
+                    confidence: parseInt(document.getElementById('recConfidence').value)
+                };
+                
+                if (window.app) {
+                    try {
+                        await window.app.addRecommendation(formData);
+                        closeAdminPanel();
+                        // 清空表单
+                        document.getElementById('recommendationForm').reset();
+                    } catch (error) {
+                        console.error('添加推荐失败:', error);
+                    }
+                }
+            });
+        });
+        
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+R 刷新数据
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                if (window.app) {
+                    window.app.refreshData();
+                }
+            }
+            
+            // ESC 关闭管理员面板
+            if (e.key === 'Escape') {
+                closeAdminPanel();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+/* 简化的个人页面样式 */
+.simple-profile {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.simple-profile h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.simple-profile > p {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.profile-notice {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.profile-notice h4 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.profile-notice p {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.profile-notice ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.profile-notice li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.profile-notice li:last-child {
+    border-bottom: none;
+}
+
+.profile-notice strong {
+    color: #333;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.quick-actions .btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.quick-actions .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.quick-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.quick-actions .btn-secondary {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.quick-actions .btn-secondary:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .profile-notice {
+        padding: 1.5rem;
+    }
+    
+    .quick-actions {
+        flex-direction: column;
+    }
+    
+    .quick-actions .btn {
+        width: 100%;
+    }
+}

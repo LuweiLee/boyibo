@@ -1,0 +1,17 @@
+# Cloudflare Pages重定向规则
+# 单页应用路由支持
+/*    /index.html   200
+
+# API代理（如果需要）
+/api/*  https://api.boyibo.com/:splat  200
+
+# 静态资源缓存
+/assets/*  /assets/:splat  200
+  Cache-Control: public, max-age=31536000, immutable
+
+# 安全头设置
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
