@@ -9,12 +9,6 @@ class CloudStorageService {
 
     // 初始化存储服务
     async init() {
-        // 调试环境变量
-        console.log('🔍 环境变量调试:');
-        console.log('VITE_WORKER_ENDPOINT:', import.meta.env.VITE_WORKER_ENDPOINT);
-        console.log('VITE_R2_ACCOUNT_ID:', import.meta.env.VITE_R2_ACCOUNT_ID);
-        console.log('所有环境变量:', import.meta.env);
-        
         // R2配置 - 使用Worker代理，添加fallback
         this.r2Config = {
             accountId: import.meta.env.VITE_R2_ACCOUNT_ID || "9d12d28ae909512f60a7ad1545c2dacd",
@@ -26,8 +20,6 @@ class CloudStorageService {
             // 是否使用Worker代理
             useWorkerProxy: true
         };
-        
-        console.log('📡 最终配置的endpoint:', this.r2Config.endpoint);
 
         // 初始化备用数据服务
         try {
