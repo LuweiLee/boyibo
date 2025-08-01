@@ -30,14 +30,12 @@ class CloudStorageService {
         }
 
         this.isInitialized = true;
-        console.log('存储服务已就绪 ✅');
     }
 
 
     // 从Worker获取数据
     async getFromWorker(fileName) {
         try {
-            console.log(`从Worker获取: ${fileName}`, `${this.r2Config.endpoint}/${fileName}`);
             const response = await fetch(`${this.r2Config.endpoint}/${fileName}`, {
                 method: 'GET',
                 headers: {
@@ -50,10 +48,8 @@ class CloudStorageService {
             }
 
             const data = await response.json();
-            console.log(`Worker获取成功: ${fileName}`, data);
             return data;
         } catch (error) {
-            console.log(`Worker获取异常: ${error.message}`);
             throw error;
         }
     }
@@ -75,7 +71,6 @@ class CloudStorageService {
 
             return true;
         } catch (error) {
-            console.error(`数据保存失败 ${fileName}:`, error.message);
             throw error;
         }
     }
@@ -86,7 +81,6 @@ class CloudStorageService {
             const data = await this.getFromWorker('recommendations.json');
             return data || [];
         } catch (error) {
-            console.log('获取推荐失败，使用备用数据');
             if (this.fallbackService) {
                 return await this.fallbackService.getRecommendations();
             }
@@ -104,7 +98,7 @@ class CloudStorageService {
                 // 处理Worker返回的数据格式 {recommendations: [...]} 或直接数组
                 recommendationsData = Array.isArray(data) ? data : (data?.recommendations || []);
             } catch (error) {
-                console.log('获取现有推荐失败，创建新列表');
+                // 获取失败时创建新列表
             }
 
             // 添加新推荐
@@ -121,8 +115,6 @@ class CloudStorageService {
             await this.uploadToWorker('recommendations.json', saveData);
             return newRecommendation.id;
         } catch (error) {
-            console.error('保存推荐失败:', error.message);
-            
             // 使用备用服务
             if (this.fallbackService) {
                 return await this.fallbackService.saveRecommendation(recommendation);
@@ -138,7 +130,6 @@ class CloudStorageService {
             const data = await this.getFromWorker('community_posts.json');
             return data || [];
         } catch (error) {
-            console.log('获取帖子失败，使用备用数据');
             if (this.fallbackService) {
                 return await this.fallbackService.getCommunityPosts();
             }
@@ -156,7 +147,7 @@ class CloudStorageService {
                 // 处理Worker返回的数据格式 {posts: [...]} 或直接数组
                 postsData = Array.isArray(data) ? data : (data?.posts || []);
             } catch (error) {
-                console.log('获取现有帖子失败，创建新列表');
+                // 获取失败时创建新列表
             }
 
             // 添加新帖子
@@ -173,8 +164,6 @@ class CloudStorageService {
             await this.uploadToWorker('community_posts.json', saveData);
             return newPost.id;
         } catch (error) {
-            console.error('保存帖子失败:', error.message);
-            
             // 使用备用服务
             if (this.fallbackService) {
                 return await this.fallbackService.saveCommunityPost(post);
@@ -205,8 +194,6 @@ class CloudStorageService {
             
             return false;
         } catch (error) {
-            console.log('更新点赞数失败:', error.message);
-            
             // 使用备用服务
             if (this.fallbackService) {
                 return await this.fallbackService.updatePostLikes(postId, likes);

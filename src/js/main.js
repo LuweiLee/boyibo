@@ -27,7 +27,6 @@ class BoyiboApp {
             await storageService.init();
             this.storageService = storageService;
         } catch (error) {
-            console.error('存储服务初始化失败:', error);
             this.storageService = null;
         }
     }
@@ -104,7 +103,6 @@ class BoyiboApp {
                     comments: post.comments || 0
                 }));
                 
-                console.log(`从R2加载了${this.posts.length}个帖子，包含完整点赞数据`);
             }
 
             // 如果云端没有数据，使用模拟数据
@@ -136,7 +134,6 @@ class BoyiboApp {
             }
 
         } catch (error) {
-            console.error('加载数据失败:', error);
             // 备选方案：使用模拟数据
             this.recommendations = this.getMockRecommendations();
             this.posts = this.getMockPosts();
@@ -337,9 +334,7 @@ class BoyiboApp {
                 };
                 
                 await this.storageService.saveCommunityPost(postToSave);
-                console.log(`点赞数据已同步到R2: 帖子${postId}, 点赞数${post.likes}`);
             } catch (error) {
-                console.error('点赞同步到R2失败:', error);
                 this.showNotification('点赞同步失败，请检查网络', 'warning');
             }
         }
@@ -404,7 +399,6 @@ class BoyiboApp {
             // 显示成功提示
             this.showNotification('发布成功！', 'success');
         } catch (error) {
-            console.error('发布帖子失败:', error);
             this.showNotification('发布失败，请重试', 'error');
         } finally {
             // 恢复按钮状态
@@ -439,7 +433,6 @@ class BoyiboApp {
             if (this.storageService) {
                 const savedId = await this.storageService.saveRecommendation(newRecommendation);
                 newRecommendation.id = savedId;
-                console.log('推荐已保存到云端:', savedId);
             }
 
             // 更新本地数据
@@ -449,7 +442,6 @@ class BoyiboApp {
             this.showNotification('推荐发布成功！', 'success');
             return newRecommendation.id;
         } catch (error) {
-            console.error('发布推荐失败:', error);
             this.showNotification('发布推荐失败，请重试', 'error');
             throw error;
         }
@@ -470,7 +462,6 @@ class BoyiboApp {
                 this.showNotification('数据刷新成功！', 'success');
             }
         } catch (error) {
-            console.error('刷新数据失败:', error);
             this.showNotification('刷新失败，请检查网络连接', 'error');
         }
     }
@@ -553,8 +544,6 @@ class BoyiboApp {
 function createPost() {
     if (window.app) {
         window.app.createPost();
-    } else {
-        console.error('应用未初始化');
     }
 }
 
