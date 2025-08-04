@@ -163,6 +163,20 @@ class FallbackDataService {
         return false;
     }
 
+    // 更新社区帖子（演示模式）
+    async updateCommunityPost(postId, updates) {
+        const post = this.data.communityPosts.find(p => p.id === postId);
+        if (post) {
+            Object.assign(post, updates);
+            post.updatedAt = new Date().toISOString();
+            
+            // 显示更新成功提示
+            this.showMessage('帖子已更新到演示数据中', 'info');
+            return true;
+        }
+        return false;
+    }
+
     // 显示消息提示
     showMessage(message, type = 'info') {
         const colors = {

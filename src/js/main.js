@@ -327,18 +327,16 @@ class BoyiboApp {
         // 立即重新渲染UI
         this.renderPosts();
         
-        // 保存到云端R2存储（包含完整的点赞数据）
+        // 使用更新方法而不是保存新帖子（关键修复）
         if (this.storageService) {
             try {
-                // 确保保存完整的帖子数据，包括likes和likedBy
-                const postToSave = {
-                    ...post,
+                // 使用专门的更新方法，避免创建重复帖子
+                const updateData = {
                     likes: post.likes,
-                    likedBy: post.likedBy,
-                    updatedAt: new Date().toISOString() // 添加更新时间戳
+                    likedBy: post.likedBy
                 };
                 
-                await this.storageService.saveCommunityPost(postToSave);
+                await this.storageService.updateCommunityPost(postId, updateData);
             } catch (error) {
                 this.showNotification('点赞同步失败，请检查网络', 'warning');
             }

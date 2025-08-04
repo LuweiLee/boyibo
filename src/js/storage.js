@@ -137,7 +137,7 @@ class CloudStorageService {
         }
     }
 
-    // 保存社区帖子
+    // 保存社区帖子（仅用于新帖子）
     async saveCommunityPost(post) {
         try {
             // 先获取现有数据
@@ -150,19 +150,30 @@ class CloudStorageService {
                 // 获取失败时创建新列表
             }
 
-            // 添加新帖子
-            const newPost = {
-                ...post,
-                id: post.id || this.generateId(),
-                createdAt: post.createdAt || new Date().toISOString()
-            };
-
-            postsData.unshift(newPost);
+            // 检查是否已存在该帖子（防止重复添加）
+            const existingPostIndex = postsData.findIndex(p => p.id === post.id);
+            
+            if (existingPostIndex >= 0) {
+                // 如果帖子已存在，更新而不是新增
+                postsData[existingPostIndex] = {
+                    ...postsData[existingPostIndex],
+                    ...post,
+                    updatedAt: new Date().toISOString()
+                };
+            } else {
+                // 添加新帖子
+                const newPost = {
+                    ...post,
+                    id: post.id || this.generateId(),
+                    createdAt: post.createdAt || new Date().toISOString()
+                };
+                postsData.unshift(newPost);
+            }
 
             // 保存到Worker - 保持原有的数据格式
             const saveData = { posts: postsData };
             await this.uploadToWorker('community_posts.json', saveData);
-            return newPost.id;
+            return post.id || this.generateId();
         } catch (error) {
             // 使用备用服务
             if (this.fallbackService) {
@@ -173,7 +184,40 @@ class CloudStorageService {
         }
     }
 
-    // 更新帖子点赞数
+    // 更新社区帖子（专门用于更新现有帖子）
+    async updateCommunityPost(postId, updates) {
+        try {
+            // 获取现有帖子数据
+            const data = await this.getFromWorker('community_posts.json');
+            const postsData = Array.isArray(data) ? data : (data?.posts || []);
+            
+            // 查找并更新指定帖子
+            const postIndex = postsData.findIndex(p => p.id === postId);
+            if (postIndex >= 0) {
+                postsData[postIndex] = {
+                    ...postsData[postIndex],
+                    ...updates,
+                    updatedAt: new Date().toISOString()
+                };
+                
+                // 保存更新后的数据
+                const saveData = { posts: postsData };
+                await this.uploadToWorker('community_posts.json', saveData);
+                return true;
+            }
+            
+            return false;
+        } catch (error) {
+            // 使用备用服务
+            if (this.fallbackService) {
+                return await this.fallbackService.updatePostLikes(postId, updates.likes);
+            }
+            
+            return false;
+        }
+    }
+
+    // 更新帖子点赞数（保留原有方法，但现在推荐使用updateCommunityPost）
     async updatePostLikes(postId, likes) {
         try {
             // 获取现有帖子
