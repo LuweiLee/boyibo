@@ -3,10 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>搏一搏 - 单车变摩托</title>
+    
+    <!-- SEO基础优化 -->
+    <title>搏一搏 - 专业博彩推荐社区 | 单车变摩托</title>
+    <meta name="description" content="搏一搏是专业的博彩推荐社区，提供高准确率的赛事分析和预测。与志同道合的朋友一起交流，理性博彩，适度娱乐。">
+    <meta name="keywords" content="博彩推荐,赛事分析,体育预测,博彩社区,足球推荐,篮球推荐">
+    <meta name="author" content="搏一搏社区">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://boyibo.pages.dev/">
+    <meta property="og:title" content="搏一搏 - 专业博彩推荐社区">
+    <meta property="og:description" content="专业的博彩推荐平台，89%推荐准确率，与志同道合的朋友一起交流">
+    <meta property="og:image" content="https://boyibo.pages.dev/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://boyibo.pages.dev/">
+    <meta property="twitter:title" content="搏一搏 - 专业博彩推荐社区">
+    <meta property="twitter:description" content="专业的博彩推荐平台，89%推荐准确率，与志同道合的朋友一起交流">
+    <meta property="twitter:image" content="https://boyibo.pages.dev/og-image.jpg">
+    
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- 样式文件 - 保持原有顺序 -->
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/components.css">
     <link rel="stylesheet" href="./styles/profile.css">
+    
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "搏一搏",
+        "description": "专业的博彩推荐社区",
+        "url": "https://boyibo.pages.dev/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://boyibo.pages.dev/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
 </head>
 <body>
     <div id="app">
@@ -26,52 +67,60 @@
         </header>
 
         <!-- 主要内容区域 -->
-        <main class="main">
+        <main class="main" role="main">
             <!-- 首页内容 -->
-            <section id="home" class="section active">
+            <section id="home" class="section active" aria-label="首页">
                 <div class="container">
-                    <div class="hero">
+                    <article class="hero">
                         <h2>欢迎来到搏一搏社区</h2>
                         <p>专业的博彩推荐平台，与志同道合的朋友一起交流</p>
-                        <div class="hero-stats">
+                        <div class="hero-stats" role="region" aria-label="社区统计数据">
                             <div class="stat">
-                                <span class="stat-number">668</span>
+                                <span class="stat-number" aria-label="活跃用户数量">668</span>
                                 <span class="stat-label">活跃用户</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-number">89%</span>
+                                <span class="stat-number" aria-label="推荐准确率">89%</span>
                                 <span class="stat-label">推荐准确率</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-number">2</span>
+                                <span class="stat-number" aria-label="今日推荐数量">2</span>
                                 <span class="stat-label">今日推荐</span>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </section>
 
             <!-- 推荐内容 -->
-            <section id="recommendations" class="section">
+            <section id="recommendations" class="section" aria-label="专业推荐">
                 <div class="container">
-                    <h2>今日推荐</h2>
-                    <div class="recommendations-grid" id="recommendationsGrid">
+                    <header>
+                        <h2>今日推荐</h2>
+                        <p class="section-description">专家精选的高质量博彩推荐，助您理性投注</p>
+                    </header>
+                    <div class="recommendations-grid" id="recommendationsGrid" role="feed" aria-label="推荐列表">
                         <!-- 推荐内容将通过JavaScript动态加载 -->
                     </div>
                 </div>
             </section>
 
             <!-- 社区内容 -->
-            <section id="community" class="section">
+            <section id="community" class="section" aria-label="社区讨论">
                 <div class="container">
-                    <h2>社区动态</h2>
+                    <header>
+                        <h2>社区动态</h2>
+                        <p class="section-description">与其他用户分享经验，交流心得</p>
+                    </header>
                     <div class="community-content">
-                        <div class="post-form">
-                            <input type="text" placeholder="请输入昵称" id="postAuthor" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
-                            <textarea placeholder="分享你的想法..." id="postContent"></textarea>
-                            <button class="btn btn-primary" onclick="createPost()">发布</button>
-                        </div>
-                        <div class="posts-list" id="postsList">
+                        <form class="post-form" role="form" aria-label="发布新帖子">
+                            <label for="postAuthor" class="sr-only">昵称</label>
+                            <input type="text" placeholder="请输入昵称" id="postAuthor" aria-label="输入您的昵称" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <label for="postContent" class="sr-only">帖子内容</label>
+                            <textarea placeholder="分享你的想法..." id="postContent" aria-label="输入帖子内容"></textarea>
+                            <button type="button" class="btn btn-primary" onclick="createPost()" aria-label="发布帖子">发布</button>
+                        </form>
+                        <div class="posts-list" id="postsList" role="feed" aria-label="社区帖子列表">
                             <!-- 帖子列表将通过JavaScript动态加载 -->
                         </div>
                     </div>
