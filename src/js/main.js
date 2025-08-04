@@ -5,6 +5,8 @@ class BoyiboApp {
         this.posts = [];
         this.recommendations = [];
         this.storageService = null;
+        this.displayedRecommendations = 3; // 初始显示3个推荐
+        this.recommendationsPerPage = 3; // 每次加载3个
         this.init();
     }
 
@@ -215,14 +217,19 @@ class BoyiboApp {
         ];
     }
 
-    // 渲染推荐内容
+    // 渲染推荐内容（支持分页）
     renderRecommendations() {
         const container = document.getElementById('recommendationsGrid');
         if (!container) return;
 
-        container.innerHTML = this.recommendations.map(rec => {
-            // 计算真实时间显示，优先使用createdAt
+        // 获取要显示的推荐（前N个）
+        const displayRecommendations = this.recommendations.slice(0, this.displayedRecommendations);
+        
+        // 渲染推荐卡片
+        const cardsHTML = displayRecommendations.map(rec => {
             const recTime = rec.createdAt ? utils.formatTime(new Date(rec.createdAt)) : rec.time;
+            const contentId = `content-${rec.id}`;
+            const isLongContent = rec.content.length > 200;
             
             return `
                 <div class="recommendation-card">
@@ -230,7 +237,14 @@ class BoyiboApp {
                         <div class="recommendation-title">${rec.title}</div>
                         <div class="recommendation-odds">${rec.odds}</div>
                     </div>
-                    <div class="recommendation-content">${rec.content}</div>
+                    <div class="recommendation-content ${isLongContent ? 'has-overflow' : ''}" id="${contentId}">
+                        ${rec.content}
+                    </div>
+                    ${isLongContent ? `
+                        <button class="recommendation-expand-btn" onclick="app.toggleRecommendationContent('${contentId}', this)">
+                            展开全文
+                        </button>
+                    ` : ''}
                     <div class="recommendation-meta">
                         <span class="recommendation-author">by ${rec.author}</span>
                         <span class="recommendation-time">${recTime}</span>
@@ -244,6 +258,58 @@ class BoyiboApp {
                 </div>
             `;
         }).join('');
+
+        // 添加加载更多按钮
+        const hasMore = this.recommendations.length > this.displayedRecommendations;
+        const loadMoreHTML = hasMore ? `
+            <div class="load-more-container">
+                <button class="load-more-btn" onclick="app.loadMoreRecommendations()" id="loadMoreBtn">
+                    显示更早推荐 (${this.recommendations.length - this.displayedRecommendations}条)
+                </button>
+            </div>
+        ` : '';
+
+        // 更新容器内容
+        container.innerHTML = cardsHTML + loadMoreHTML;
+    }
+
+    // 切换推荐内容展开/收起
+    toggleRecommendationContent(contentId, button) {
+        const contentElement = document.getElementById(contentId);
+        const isExpanded = contentElement.classList.contains('expanded');
+        
+        if (isExpanded) {
+            contentElement.classList.remove('expanded');
+            contentElement.classList.add('has-overflow');
+            button.textContent = '展开全文';
+        } else {
+            contentElement.classList.add('expanded');
+            contentElement.classList.remove('has-overflow');
+            button.textContent = '收起';
+        }
+    }
+
+    // 加载更多推荐
+    async loadMoreRecommendations() {
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        if (!loadMoreBtn) return;
+
+        // 显示加载状态
+        const originalText = loadMoreBtn.innerHTML;
+        loadMoreBtn.innerHTML = '<span class="loading-spinner"></span>加载中...';
+        loadMoreBtn.disabled = true;
+
+        // 模拟加载延迟（提升用户体验）
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // 增加显示的推荐数量
+        this.displayedRecommendations += this.recommendationsPerPage;
+        
+        // 重新渲染
+        this.renderRecommendations();
+
+        // 显示加载成功提示
+        this.showNotification(`已加载更多推荐`, 'success');
     }
 
     // 渲染社区帖子

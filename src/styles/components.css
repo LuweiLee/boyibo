@@ -76,6 +76,39 @@
     color: #666;
     margin-bottom: 1rem;
     line-height: 1.6;
+    max-height: 120px;
+    overflow: hidden;
+    position: relative;
+}
+
+.recommendation-content.expanded {
+    max-height: none;
+}
+
+.recommendation-content.has-overflow::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(transparent, white);
+    pointer-events: none;
+}
+
+.recommendation-expand-btn {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.recommendation-expand-btn:hover {
+    color: #764ba2;
 }
 
 .recommendation-meta {
@@ -261,6 +294,52 @@
     color: #667eea;
 }
 
+/* 分页加载样式 */
+.load-more-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+.load-more-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.load-more-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .recommendations-grid {
@@ -275,5 +354,10 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+    }
+    
+    .load-more-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
