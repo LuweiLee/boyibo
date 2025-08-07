@@ -6,7 +6,7 @@
     
     <!-- 首页 -->
     <url>
-        <loc>https://boyibo.pages.dev/</loc>
+        <loc>https://boyibo.xyz/</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
@@ -14,7 +14,7 @@
     
     <!-- 推荐页面 -->
     <url>
-        <loc>https://boyibo.pages.dev/#recommendations</loc>
+        <loc>https://boyibo.xyz/#recommendations</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
@@ -22,7 +22,7 @@
     
     <!-- 社区页面 -->
     <url>
-        <loc>https://boyibo.pages.dev/#community</loc>
+        <loc>https://boyibo.xyz/#community</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>hourly</changefreq>
         <priority>0.8</priority>
@@ -30,7 +30,7 @@
     
     <!-- 个人中心 -->
     <url>
-        <loc>https://boyibo.pages.dev/#profile</loc>
+        <loc>https://boyibo.xyz/#profile</loc>
         <lastmod>2024-12-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
