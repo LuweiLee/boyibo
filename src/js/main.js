@@ -618,10 +618,17 @@ function createPost() {
 
 // 初始化应用
 let app;
+let aiChat;
 document.addEventListener('DOMContentLoaded', () => {
     app = new BoyiboApp();
     // 将app实例暴露到全局，供HTML中的内联事件使用
     window.app = app;
+    
+    // 初始化AI聊天功能
+    if (window.AIChatUI) {
+        aiChat = new window.AIChatUI();
+        window.aiChat = aiChat;
+    }
 });
 
 // 确保全局函数可用

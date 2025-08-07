@@ -1,17 +1,28 @@
 User-agent: *
 Allow: /
 
-# 主要页面
-Allow: /
-Allow: /index.html
-
-# 静态资源
-Allow: /styles/
-Allow: /js/
-Allow: /images/
-
 # 网站地图
 Sitemap: https://boyibo.pages.dev/sitemap.xml
 
 # 搜索引擎优化
 Crawl-delay: 1
+
+# 允许所有页面被索引
+Allow: /
+Allow: /#recommendations
+Allow: /#community
+Allow: /#profile
+
+# 禁止索引的路径（如果有的话）
+# Disallow: /admin/
+# Disallow: /private/
+
+# 针对特定搜索引擎的配置
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
